@@ -5,14 +5,14 @@ import { AuthContext } from '../contex/UserContex';
 const PrivateRoutes = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
 
+    if (loading) {
+        return <div>Loading..</div>
+    }
+
     // ইউজার, ইউজারের uid এবং ইউজারের ইমেইল আইডি ভেরিফাই হলে children এ ঢুকতে দিবো।
     // if (user && user?.uid && user?.emailVerified) {
     //     return children;
     // }
-
-    if (loading) {
-        return <div>Loading..</div>
-    }
 
     // ইউজার এবং ইউজারে uid থাকলে children এ ঢুকতে দিবো।
     if (user && user?.uid) {
