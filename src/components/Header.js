@@ -15,6 +15,7 @@ const Header = () => {
     return (
         <div>
             <Link to="/">Home</Link>
+            <Link to="/orders">Orders</Link>
             <Link to="/register">Register</Link>
             <Link to="/login">Login</Link>
             {user?.email && <span>Welcome, {user.email}</span>}

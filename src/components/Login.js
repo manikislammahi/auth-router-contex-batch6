@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contex/UserContex';
 
 const Login = () => {
@@ -7,7 +7,11 @@ const Login = () => {
     const [success, setSuccess] = useState(false);
     // const [email, setEmail] = useState('');
 
+    console.log("sucsexxxxxxxxx", success)
+
     const { logIn } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -22,12 +26,16 @@ const Login = () => {
         logIn(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                console.log("successfully loged in", user);
                 if (!user?.emailVerified) {
+                    console.log("verify user", user?.emailVerified)
                     alert("Please verify your email before log in!");
                 }
                 else {
+                    console.log("helo user", user?.emailVerified)
                     setSuccess(true);
+                    form.reset();
+                    navigate('/')
                 }
             })
             .catch((error) => {
