@@ -7,8 +7,6 @@ const Login = () => {
     const [success, setSuccess] = useState(false);
     // const [email, setEmail] = useState('');
 
-    console.log("sucsexxxxxxxxx", success)
-
     const { logIn } = useContext(AuthContext);
 
     const navigate = useNavigate();
