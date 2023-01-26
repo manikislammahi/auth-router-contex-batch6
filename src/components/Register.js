@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../contex/UserContex';
 
@@ -39,11 +40,13 @@ const Register = () => {
                 console.log(user);
                 setSuccess(true);
 
-                emailVerification();
+
                 // যেহেতু ইউজার সাকসেস্ফুলি লগ ইন হয়ে গেছে তাই আমরা সমস্ত এরোর মুছে ফেলতে চাই তাই।
-                setPasswordError('')
+                setPasswordError('');
                 form.reset();
-                handleUpdateUserProfile(name, photoURL)
+                handleUpdateUserProfile(name, photoURL);
+                emailVerification();
+                toast.success('Please verify your email address.')
             })
             .catch(error => {
                 console.log(error)
@@ -92,7 +95,7 @@ const Register = () => {
             <form onSubmit={handleRegister}>
                 <input type="text" name="name" id="" placeholder='your name' />
                 <br />
-                <input type="url" name="photoURL" id="" />
+                <input type="url" name="photoURL" id="" placeholder='Your photo URL' />
                 <br />
                 <input type="email" name="email" id="" placeholder='your email' />
                 <br />

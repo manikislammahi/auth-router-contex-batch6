@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { toast } from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contex/UserContex';
 
@@ -26,9 +27,10 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log("successfully loged in", user);
+
                 if (!user?.emailVerified) {
                     console.log("verify user", user?.emailVerified)
-                    alert("Please verify your email before log in!");
+                    toast.error("Your email is not verified. Please verify you email address.");
                 }
                 else {
                     console.log("helo user", user?.emailVerified)
