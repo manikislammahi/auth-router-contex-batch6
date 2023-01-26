@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import PrivateRoutes from './routes/PrivateRoutes';
 import Orders from './components/Orders';
+import TermsAndConditions from './components/TermsAndConditions';
 
 function App() {
   const router = createBrowserRouter([
@@ -17,6 +18,7 @@ function App() {
         { path: '/register', element: <Register /> },
         { path: '/login', element: <Login /> },
         { path: '/orders', element: <PrivateRoutes><Orders /></PrivateRoutes> },
+        { path: '/terms', element: <TermsAndConditions /> },
       ]
     }
   ])

@@ -18,6 +18,9 @@ const Header = () => {
             <Link to="/orders">Orders</Link>
             <Link to="/register">Register</Link>
             <Link to="/login">Login</Link>
+            <div>
+                <img width={60} src={user?.photoURL} alt="user profile" />
+            </div>
             {user?.email && <span>Welcome, {user.email}</span>}
             {
                 user?.email ? <button onClick={handleLogOut}>Log out</button> : <Link to="/login"></Link>

@@ -5,15 +5,24 @@ import { AuthContext } from '../contex/UserContex';
 const Register = () => {
     const [passwordError, setPasswordError] = useState('');
     const [success, setSuccess] = useState(false);
+    const [accepted, setAccepted] = useState(false);
 
-    const { createUser, signInWithGoogle } = useContext(AuthContext);
+    console.log(accepted, "amn")
+
+    const {
+        createUser,
+        signInWithGoogle,
+        verifyEmail,
+        updateUserProfile
+    } = useContext(AuthContext);
 
     const handleRegister = (event) => {
         event.preventDefault();
         setSuccess(false);
 
         const form = event.target;
-        // const name = form.name.value;
+        const name = form.name.value;
+        const photoURL = form.photoURL.value;
         const email = form.email.value;
         const password = form.password.value;
 
@@ -29,9 +38,12 @@ const Register = () => {
                 const user = result.user;
                 console.log(user);
                 setSuccess(true);
+
+                emailVerification();
+                // যেহেতু ইউজার সাকসেস্ফুলি লগ ইন হয়ে গেছে তাই আমরা সমস্ত এরোর মুছে ফেলতে চাই তাই।
+                setPasswordError('')
                 form.reset();
-                // emailVerification();
-                // updateUserProfile(name);
+                handleUpdateUserProfile(name, photoURL)
             })
             .catch(error => {
                 console.log(error)
@@ -39,24 +51,26 @@ const Register = () => {
             })
     }
 
-    // const emailVerification = () => {
-    //     sendEmailVerification(auth.currentUser)
-    //         .then(() => {
-    //             alert("Please check your email and verify email address")
-    //         });
-    // }
+    const emailVerification = () => {
+        verifyEmail()
+            .then(() => {
+                alert("Please check your email and verify email address")
+            });
+    }
 
-    // const updateUserProfile = (name) => {
+    const handleUpdateUserProfile = (name, photoURL) => {
 
-    //     updateProfile(auth.currentUser, {
-    //         displayName: name,
-    //         // photoURL: "https://example.com/jane-q-user/profile.jpg"
-    //     }).then(() => {
-    //         alert("Display name updated")
-    //     }).catch(error => {
-    //         console.log(error)
-    //     });
-    // }
+        const profile = {
+            displayName: name,
+            photoURL: photoURL
+        }
+        updateUserProfile(profile)
+            .then(() => {
+                alert("Display name updated")
+            }).catch(error => {
+                console.log(error)
+            });
+    }
 
     const googleLogin = () => {
         signInWithGoogle()
@@ -68,19 +82,28 @@ const Register = () => {
             });
     }
 
+    const handleAccepted = event => {
+        setAccepted(event.target.checked);
+    }
+
     return (
         <div>
             <h1>Register</h1>
             <form onSubmit={handleRegister}>
                 <input type="text" name="name" id="" placeholder='your name' />
                 <br />
+                <input type="url" name="photoURL" id="" />
+                <br />
                 <input type="email" name="email" id="" placeholder='your email' />
                 <br />
                 <input type="password" name="password" id="" placeholder='pass' />
                 <br />
+                <input onClick={handleAccepted} type="checkbox" name="" id="" />
+                <label>Accept <Link to="/terms">Terms and conditions</Link></label>
+                <br />
                 <h3>{passwordError}</h3>
                 {success && <h3>Successfully account created!</h3>}
-                <button type="submit">Register</button>
+                <button type="submit" disabled={!accepted}>Register</button>
             </form>
             <button onClick={googleLogin}>google sigin</button>
             <h4>Already have an account? <Link to="/login">Log in</Link></h4>

@@ -1,15 +1,16 @@
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contex/UserContex';
 
 const Login = () => {
     const [passwordError, setPasswordError] = useState('');
     const [success, setSuccess] = useState(false);
     // const [email, setEmail] = useState('');
-
-    const { logIn } = useContext(AuthContext);
+    const { logIn, setLoading } = useContext(AuthContext);
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -33,11 +34,15 @@ const Login = () => {
                     console.log("helo user", user?.emailVerified)
                     setSuccess(true);
                     form.reset();
-                    navigate('/')
+                    // যেহেতু ইউজার সাকসেস্ফুলি লগ ইন হয়ে গেছে তাই আমরা সমস্ত এরোর মুছে ফেলতে চাই তাই।
+                    setPasswordError('');
+                    setLoading(false);
+                    navigate(from, { replace: true });
                 }
             })
             .catch((error) => {
                 const errorMessage = error.message;
+                setPasswordError(errorMessage);
                 console.log("error message manik", errorMessage)
             });
     }
