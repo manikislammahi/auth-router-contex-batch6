@@ -8,6 +8,7 @@ import PrivateRoutes from './routes/PrivateRoutes';
 import Orders from './components/Orders';
 import TermsAndConditions from './components/TermsAndConditions';
 import { Toaster } from 'react-hot-toast';
+import Profile from './components/Profile';
 
 function App() {
   const router = createBrowserRouter([
@@ -18,6 +19,7 @@ function App() {
         { path: '/', element: <PrivateRoutes><Home /></PrivateRoutes> },
         { path: '/register', element: <Register /> },
         { path: '/login', element: <Login /> },
+        { path: '/profile', element: <PrivateRoutes><Profile /></PrivateRoutes> },
         { path: '/orders', element: <PrivateRoutes><Orders /></PrivateRoutes> },
         { path: '/terms', element: <TermsAndConditions /> },
       ]

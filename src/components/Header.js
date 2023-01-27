@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { AuthContext } from '../contex/UserContex'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../contex/UserContex';
+import avator from '../assets/user-icon.svg';
 
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -18,9 +19,15 @@ const Header = () => {
             <Link to="/orders">Orders</Link>
             <Link to="/register">Register</Link>
             <Link to="/login">Login</Link>
-            <div>
-                <img width={60} src={user?.photoURL} alt="user profile" />
-            </div>
+
+            <Link to='/profile'>
+                {user?.photoURL ?
+                    <img width={45} src={user?.photoURL} alt="user profile" />
+                    :
+                    <img width={45} src={avator} alt='User Avator'></img>
+                }
+            </Link>
+
             {user?.email && <span>Welcome, {user.email}</span>}
             {
                 user?.email ? <button onClick={handleLogOut}>Log out</button> : <Link to="/login"></Link>
