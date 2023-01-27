@@ -6,8 +6,10 @@ import { AuthContext } from '../contex/UserContex';
 const Login = () => {
     const [passwordError, setPasswordError] = useState('');
     const [success, setSuccess] = useState(false);
-    // const [email, setEmail] = useState('');
-    const { logIn, setLoading } = useContext(AuthContext);
+    const [email, setEmail] = useState('');
+    const { logIn, setLoading, forgetPassword } = useContext(AuthContext);
+
+    console.log("firebase hot email", email);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,7 +20,7 @@ const Login = () => {
         setSuccess(false);
 
         const form = event.target;
-        const email = form.email.value;
+        // const email = form.email.value;
         const password = form.password.value;
 
         setPasswordError('');
@@ -44,33 +46,33 @@ const Login = () => {
             .catch((error) => {
                 const errorMessage = error.message;
                 setPasswordError(errorMessage);
-                console.log("error message manik", errorMessage)
+                toast.error("Please provide a valied email and password.")
             })
             .finally(() => {
                 setLoading(false);
             })
     }
 
-    // const handleForgetPassword = () => {
-    //     if (!email) {
-    //         alert("Please enter your password");
-    //         return;
-    //     }
-    //     sendPasswordResetEmail(auth, email)
-    //         .then(() => {
-    //             alert('Password reset email sent! Please check your email')
-    //         })
-    //         .catch((error) => {
-    //             const errorMessage = error.message;
-    //             alert(errorMessage)
-    //         });
-    // }
+    const handleForgetPassword = () => {
+        if (!email) {
+            toast.error("Please enter your email before click me.");
+            return;
+        }
+        forgetPassword(email)
+            .then(() => {
+                toast.success('Password reset email sent. Please check your email.')
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                toast.error(errorMessage)
+            });
+    }
 
     return (
         <div>
             <h1>Please Log in</h1>
             <form onSubmit={handleLogin}>
-                <input type="email" name="email" id="" placeholder='your email' required />
+                <input onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="" placeholder='your email' required />
                 <br />
                 <input type="password" name="password" id="" placeholder='pass' required />
                 <br />
@@ -85,7 +87,7 @@ const Login = () => {
             }
             <h4>New to this website? <Link to="/register">Register</Link></h4>
 
-            {/* <p>Forget password? <button onClick={handleForgetPassword}>Reset password</button></p> */}
+            <p>Forget password? <button onClick={handleForgetPassword}>Reset password</button></p>
         </div>
     )
 }

@@ -8,8 +8,6 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
     const [accepted, setAccepted] = useState(false);
 
-    console.log(accepted, "amn")
-
     const {
         createUser,
         signInWithGoogle,
@@ -39,14 +37,11 @@ const Register = () => {
                 const user = result.user;
                 console.log(user);
                 setSuccess(true);
-
-
                 // যেহেতু ইউজার সাকসেস্ফুলি লগ ইন হয়ে গেছে তাই আমরা সমস্ত এরোর মুছে ফেলতে চাই তাই।
                 setPasswordError('');
                 form.reset();
                 handleUpdateUserProfile(name, photoURL);
                 emailVerification();
-                toast.success('Please verify your email address.')
             })
             .catch(error => {
                 console.log(error)
@@ -57,7 +52,7 @@ const Register = () => {
     const emailVerification = () => {
         verifyEmail()
             .then(() => {
-                alert("Please check your email and verify email address")
+                toast.success('Registration Success. Please verify your email address.')
             });
     }
 
@@ -69,7 +64,7 @@ const Register = () => {
         }
         updateUserProfile(profile)
             .then(() => {
-                alert("Display name updated")
+                toast.success("Display name updated")
             }).catch(error => {
                 console.log(error)
             });
@@ -93,13 +88,13 @@ const Register = () => {
         <div>
             <h1>Register</h1>
             <form onSubmit={handleRegister}>
-                <input type="text" name="name" id="" placeholder='your name' />
+                <input type="text" name="name" id="" placeholder='Your name' />
                 <br />
                 <input type="url" name="photoURL" id="" placeholder='Your photo URL' />
                 <br />
-                <input type="email" name="email" id="" placeholder='your email' />
+                <input type="email" name="email" id="" placeholder='Your email' />
                 <br />
-                <input type="password" name="password" id="" placeholder='pass' />
+                <input type="password" name="password" id="" placeholder='Password' />
                 <br />
                 <input onClick={handleAccepted} type="checkbox" name="" id="" />
                 <label>Accept <Link to="/terms">Terms and conditions</Link></label>
