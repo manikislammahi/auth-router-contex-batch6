@@ -27,26 +27,28 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log("successfully loged in", user);
+                // যেহেতু ইউজার সাকসেস্ফুলি লগ ইন হয়ে গেছে তাই আমরা সমস্ত এরোর মুছে ফেলতে চাই তাই।
+                setPasswordError('');
+                form.reset();
+                setLoading(false);
+                console.log("Is user email address verify", user?.emailVerified);
 
-                if (!user?.emailVerified) {
-                    console.log("verify user", user?.emailVerified)
-                    toast.error("Your email is not verified. Please verify you email address.");
+                if (user?.emailVerified) {
+                    setSuccess(true);
+                    navigate(from, { replace: true });
                 }
                 else {
-                    console.log("helo user", user?.emailVerified)
-                    setSuccess(true);
-                    form.reset();
-                    // যেহেতু ইউজার সাকসেস্ফুলি লগ ইন হয়ে গেছে তাই আমরা সমস্ত এরোর মুছে ফেলতে চাই তাই।
-                    setPasswordError('');
-                    setLoading(false);
-                    navigate(from, { replace: true });
+                    toast.error("Your email is not verified. Please verify you email address.");
                 }
             })
             .catch((error) => {
                 const errorMessage = error.message;
                 setPasswordError(errorMessage);
                 console.log("error message manik", errorMessage)
-            });
+            })
+            .finally(() => {
+                setLoading(false);
+            })
     }
 
     // const handleForgetPassword = () => {

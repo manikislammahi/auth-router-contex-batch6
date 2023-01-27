@@ -26,7 +26,6 @@ const UserContex = ({ children }) => {
         return signInWithPopup(auth, provider)
     }
     const verifyEmail = () => {
-        setLoading(true);
         return sendEmailVerification(auth.currentUser)
     }
 
@@ -42,7 +41,9 @@ const UserContex = ({ children }) => {
     // user যেখান থেকেই লগইন করুন না কেনো তার ইনফরমেশন ধরে রাখার জন্য বা পাওয়ার জন্য।
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser);
+            if (currentUser === null || currentUser.emailVerified) {
+                setUser(currentUser);
+            }
             setLoading(false);
             console.log('auth state change', currentUser)
         })
